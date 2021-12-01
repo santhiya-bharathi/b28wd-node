@@ -21,6 +21,7 @@
 import express from "express"; //"type":"module",
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
+import { getMovies, createMovies, getMoviesById, deleteMoviesById, editMoviesById } from "./helper.js";
 
 dotenv.config(); // all keys it will put in process.env
 
@@ -46,7 +47,7 @@ const MONGO_URL = process.env.MONGO_URL;
  }
  //call the function
  //this is for got the client
- const client = await createConnection();
+ export const client = await createConnection();
 
 app.get("/",(request,response)=>{
     response.send("hello happy world");
@@ -122,35 +123,4 @@ app.put("/movies/:id", async (request,response)=>{
 
 app.listen(PORT,()=>console.log("app is started in",PORT));
 
-async function editMoviesById(id, data) {
-	return await client
-		.db("b28wd")
-		.collection("movies")
-		.updateOne({ id: id }, { $set: data });
-}
 
-async function deleteMoviesById(id) {
-	return await client
-		.db("b28wd")
-		.collection("movies")
-		.deleteOne({ id: id });
-}
-
-async function createMovies(data) {
-	return await client.db("b28wd").collection("movies").insertMany(data);
-}
-
-async function getMoviesById(id) {
-	return await client
-		.db("b28wd")
-		.collection("movies")
-		.findOne({ id: id });
-}
-
-async function getMovies(filter) {
-	return await client
-		.db("b28wd")
-		.collection("movies")
-		.find(filter)
-		.toArray();
-}
