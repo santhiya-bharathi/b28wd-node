@@ -26,7 +26,7 @@ import { ObjectId } from "mongodb";
 dotenv.config(); // all keys it will put in process.env
 
 const app = express();
-const PORT = 9000;
+const PORT = process.env.PORT; //heroku will auto assign available port
 
 
 app.use(cors());
